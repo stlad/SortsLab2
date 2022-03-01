@@ -94,7 +94,50 @@ namespace SortsLab2
        
         public static string SortTree(Experiment exp)
         {
-            return "st";
+            BinaryTree root = null;
+            var str = exp.Text;
+            for(int i = 0; i < str.Length; i++)
+            {
+                exp.SortIterations[SortType.SortTree]++;
+                root = AddNode(exp, root, str[i]);
+            }
+            var res = new StringBuilder();
+            GetTree(exp, root, res);
+            return res.ToString();
+        }
+
+        private static BinaryTree AddNode(Experiment exp, BinaryTree tree, char val)
+        {
+            exp.SortIterations[SortType.SortTree]++;
+            if (tree == null)
+            {
+                tree = new BinaryTree();
+                tree.key = val;
+                tree.Right = null;
+                tree.Left = null;
+            }
+            else
+            {
+                if (val < tree.key)
+                    tree.Left = AddNode(exp, tree.Left, val);
+                else
+                    tree.Right = AddNode(exp, tree.Right, val);
+
+            }
+            return tree;
+        }
+
+        private static void GetTree(Experiment exp, BinaryTree tree, StringBuilder res)
+        {
+
+            if (tree == null) return;
+
+            exp.SortIterations[SortType.SortTree]++;
+
+            GetTree(exp, tree.Left, res);
+            res.Append(tree.key);
+            GetTree(exp, tree.Right, res);
+
         }
 
         public static string InsertSort(Experiment exp)
