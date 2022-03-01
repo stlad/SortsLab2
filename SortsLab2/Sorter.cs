@@ -40,7 +40,25 @@ namespace SortsLab2
 
         public static string BubbleSort(Experiment exp)
         {
-            return "bs";
+            var str = new StringBuilder(exp.Text);
+            var wasSwaps = true;
+            for(int i = 0; i< str.Length; i++)
+            {
+                wasSwaps = false;
+                for(int j = 0; j<str.Length - i - 1;j++)
+                {
+                    exp.Iterations++;
+                    if(str[j] > str[j+1])
+                    {
+                        (str[j], str[j + 1]) = (str[j + 1], str[j]);
+                        wasSwaps = true;
+                    }
+
+                }
+                if (!wasSwaps) break;
+            }
+
+            return str.ToString();
         }
 
         public static string QSort(Experiment exp)
