@@ -47,7 +47,7 @@ namespace SortsLab2
                 wasSwaps = false;
                 for(int j = 0; j<str.Length - i-1 ;j++)
                 {
-                    exp.SortIterations[SortType.Bubble]++;          //учет итерации
+                    exp.SortIterations[(int)SortType.Bubble]++;          //учет итерации
                     if(str[j] > str[j+1])
                     {
                         (str[j], str[j + 1]) = (str[j + 1], str[j]);
@@ -78,7 +78,7 @@ namespace SortsLab2
 
             for(int i = start; i<end; i++)
             {
-                exp.SortIterations[SortType.QSort]++;           //учет итерации
+                exp.SortIterations[(int)SortType.QSort]++;           //учет итерации
                 if(str[i] <= pivot)
                 {
                     (str[i], str[storeIndex]) = (str[storeIndex], str[i]);
@@ -98,7 +98,7 @@ namespace SortsLab2
             var str = exp.Text;
             for(int i = 0; i < str.Length; i++)
             {
-                exp.SortIterations[SortType.SortTree]++;
+                exp.SortIterations[(int)SortType.SortTree]++;
                 root = AddNode(exp, root, str[i]);
             }
             var res = new StringBuilder();
@@ -108,7 +108,7 @@ namespace SortsLab2
 
         private static BinaryTree AddNode(Experiment exp, BinaryTree tree, char val)
         {
-            exp.SortIterations[SortType.SortTree]++;
+            exp.SortIterations[(int)SortType.SortTree]++;
             if (tree == null)
             {
                 tree = new BinaryTree();
@@ -132,7 +132,7 @@ namespace SortsLab2
 
             if (tree == null) return;
 
-            exp.SortIterations[SortType.SortTree]++;
+            exp.SortIterations[(int)SortType.SortTree]++;
 
             GetTree(exp, tree.Left, res);
             res.Append(tree.key);
@@ -142,12 +142,31 @@ namespace SortsLab2
 
         public static string InsertSort(Experiment exp)
         {
-            return "is";
+            var str = new StringBuilder(exp.Text);
+
+            for(int i = 1; i< str.Length; i++)
+            {
+                for(int j = i; j>0 && str[j-1] > str[j]; j--)
+                {
+                    exp.SortIterations[(int)Sorter.SortType.Instert]++;
+                    (str[j-1], str[j]) = (str[j],str[j-1]);
+                }
+            }
+            return str.ToString();
         }
 
         public static string MergeSort(Experiment exp)
         {
             return "ms";
+        }
+
+        public static void RecursionMerge(Experiment exp, StringBuilder str, int size)
+        {
+            if (size <= 1) return;
+
+            var leftSize = size / 2;
+            var rightSize = size - leftSize;
+
         }
 
         public static string HeapTreeSort(Experiment exp)
