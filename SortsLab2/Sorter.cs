@@ -45,9 +45,9 @@ namespace SortsLab2
             for(int i = 0; i< str.Length; i++)
             {
                 wasSwaps = false;
-                for(int j = 0; j<str.Length - i - 1;j++)
+                for(int j = 0; j<str.Length - i-1 ;j++)
                 {
-                    exp.Iterations++;
+                    exp.SortIterations[SortType.Bubble]++;          //учет итерации
                     if(str[j] > str[j+1])
                     {
                         (str[j], str[j + 1]) = (str[j + 1], str[j]);
@@ -63,9 +63,35 @@ namespace SortsLab2
 
         public static string QSort(Experiment exp)
         {
-            return "qs";
+            var str = new StringBuilder(exp.Text);
+            RecursionQSort(exp, str, 0, str.Length - 1);
+            return str.ToString();
         }
 
+        private static void RecursionQSort(Experiment exp, StringBuilder str, int start, int end)
+        {
+            if (end == start) return;
+
+            var pivot = str[end];
+            var storeIndex = start;
+
+
+            for(int i = start; i<end; i++)
+            {
+                exp.SortIterations[SortType.QSort]++;           //учет итерации
+                if(str[i] <= pivot)
+                {
+                    (str[i], str[storeIndex]) = (str[storeIndex], str[i]);
+                    storeIndex++;
+                }
+            }
+
+            (str[storeIndex], str[end]) = (str[end], str[storeIndex]);
+
+            if (storeIndex > start) RecursionQSort(exp, str, start, storeIndex - 1);
+            if (storeIndex < end) RecursionQSort(exp, str, storeIndex+1,end );
+        }
+       
         public static string SortTree(Experiment exp)
         {
             return "st";
