@@ -15,22 +15,23 @@ namespace SortsLab2
         public string Text { get; set; }
         public int Length => Text.Length;
 
-        public Dictionary<Sorter.SortType, int > SortIterations { get; set; }
+        //public Dictionary<Sorter.SortType, int > SortIterations { get; set; }
 
+        public int[] SortIterations { get; set; }
         public Experiment() { }
         public Experiment(string text)
         {
             Text = text;
-            SortIterations = new Dictionary<Sorter.SortType, int>();
+            SortIterations = new int[8];
 
-            SortIterations[Sorter.SortType.Bubble] = 0;
-            SortIterations[Sorter.SortType.QSort] = 0;
-            SortIterations[Sorter.SortType.SortTree] = 0;
-            SortIterations[Sorter.SortType.Instert] = 0;
-            SortIterations[Sorter.SortType.MergeSort] = 0;
-            SortIterations[Sorter.SortType.HeapTree] = 0;
-            SortIterations[Sorter.SortType.Radix] = 0;
-            SortIterations[Sorter.SortType.RedBlackTree] = 0;
+            SortIterations[(int)Sorter.SortType.Bubble] = 0;
+            SortIterations[(int)Sorter.SortType.QSort] = 0;
+            SortIterations[(int)Sorter.SortType.SortTree] = 0;
+            SortIterations[(int)Sorter.SortType.Instert] = 0;
+            SortIterations[(int)Sorter.SortType.MergeSort] = 0;
+            SortIterations[(int)Sorter.SortType.HeapTree] = 0;
+            SortIterations[(int)Sorter.SortType.Radix] = 0;
+            SortIterations[(int)Sorter.SortType.RedBlackTree] = 0;
         }
 
 
