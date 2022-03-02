@@ -157,21 +157,64 @@ namespace SortsLab2
 
         public static string MergeSort(Experiment exp)
         {
-            return "ms";
+            var str = new StringBuilder(exp.Text);
+            //RecursionMerge(exp, str, 0, str.Length - 1);
+            return "no";
         }
 
-        public static void RecursionMerge(Experiment exp, StringBuilder str, int size)
+        public static void RecursionMerge(Experiment exp, StringBuilder str, int fIndex, int lIndex)
         {
-            if (size <= 1) return;
+            if (lIndex <= fIndex) return;
 
-            var leftSize = size / 2;
-            var rightSize = size - leftSize;
+            var middleIndex = (lIndex - fIndex) / 2 + fIndex;
+            RecursionMerge(exp, str, fIndex, middleIndex);
+            RecursionMerge(exp, str, middleIndex+1, lIndex);
+
+
 
         }
 
+
+        //элементы дерева a[i] a[2i+1] a[2i+2]
         public static string HeapTreeSort(Experiment exp)
         {
-            return "hts";
+            var str = new StringBuilder(exp.Text);
+            heapSort(exp, str, str.Length);
+            return str.ToString();
+        }
+
+
+        private static void heapify(Experiment exp, StringBuilder str, int heapSize, int i)
+        {
+            exp.SortIterations[(int)Sorter.SortType.HeapTree]++;
+
+            var largest = i;
+            var left = 2 * i + 1;
+            var right = 2 * i + 2;
+
+            if(heapSize > left && str[left] > str[largest])
+                largest = left;
+            if (heapSize > right && str[right] > str[largest])
+                largest = right;
+
+            if (largest != i)
+            {
+                (str[i], str[largest]) = (str[largest], str[i]);
+            }
+            else return;
+            heapify(exp, str, heapSize, largest);
+        }
+
+        private static void heapSort(Experiment exp, StringBuilder str, int n)
+        {
+            for(int i = n/2 -1; i>=0; i--)
+                heapify(exp, str, n, i);
+
+            for (int i = n - 1; i >= 0; i--)
+            {
+               (str[0], str[i]) = (str[i], str[0]);
+                heapify(exp, str, i, 0);
+            }
         }
 
         public static string RadixSort(Experiment exp)
