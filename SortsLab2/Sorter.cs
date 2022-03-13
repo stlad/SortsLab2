@@ -37,7 +37,7 @@ namespace SortsLab2
             Sorts[SortType.Radix] = RadixSort;
             Sorts[SortType.RedBlackTree] = RedBlackSort;
         }
-
+        //*----------------ПУЗЫРЕК----------------------------------------
         public static string BubbleSort(Experiment exp)
         {
             var str = new StringBuilder(exp.Text);
@@ -61,6 +61,7 @@ namespace SortsLab2
             return str.ToString();
         }
 
+        //*--------------------БЫСТАРЯ СОРТИРОВКА------------------------------------
         public static string QSort(Experiment exp)
         {
             var str = new StringBuilder(exp.Text);
@@ -91,7 +92,8 @@ namespace SortsLab2
             if (storeIndex > start) RecursionQSort(exp, str, start, storeIndex - 1);
             if (storeIndex < end) RecursionQSort(exp, str, storeIndex+1,end );
         }
-       
+
+        //*--------------------БИНАРНОЕ ДЕРЕВО----------------------------------
         public static string SortTree(Experiment exp)
         {
             BinaryTree root = null;
@@ -140,6 +142,7 @@ namespace SortsLab2
 
         }
 
+        //*--------------------ВСТАВКАМИ------------------------------------
         public static string InsertSort(Experiment exp)
         {
             var str = new StringBuilder(exp.Text);
@@ -155,34 +158,80 @@ namespace SortsLab2
             return str.ToString();
         }
 
+        //*--------------------СЛИЯНИЕМ------------------------------------
         public static string MergeSort(Experiment exp)
         {
             var str = new StringBuilder(exp.Text);
-            //RecursionMerge(exp, str, 0, str.Length - 1);
-            return "no";
+            RecursionMerge(exp, str, 0, str.Length - 1);
+            return str.ToString();
         }
 
-        public static void RecursionMerge(Experiment exp, StringBuilder str, int fIndex, int lIndex)
+        private static void RecursionMerge(Experiment exp, StringBuilder str, int leftIndex, int rightIndex)
         {
-            if (lIndex <= fIndex) return;
+            //if (rightIndex <= leftIndex) return;
 
-            var middleIndex = (lIndex - fIndex) / 2 + fIndex;
-            RecursionMerge(exp, str, fIndex, middleIndex);
-            RecursionMerge(exp, str, middleIndex+1, lIndex);
+            //var middleIndex = (rightIndex - leftIndex) / 2 + leftIndex;
+            //RecursionMerge(exp, str, leftIndex, middleIndex);
+            //RecursionMerge(exp, str, middleIndex+1, rightIndex);
+
+            if (leftIndex + 1 >= rightIndex) return;
+
+            var middleI = (leftIndex + rightIndex) / 2;
+            RecursionMerge(exp, str, leftIndex, middleI);
+            RecursionMerge(exp, str, middleI, rightIndex);
+            Merge(exp, str, leftIndex, middleI, rightIndex);
+        }
+        
+        private static void Merge(Experiment exp, StringBuilder str, int left, int middle, int right)
+        {
+            var it1 = 0;
+            var it2 = 0; 
+            var buffer = new StringBuilder(exp.Text);
+
+            while((left+it1 < middle) &&( middle + it2 < right))
+            {
+                if (str[left + it1] < str[middle + it2])
+                {
+                    buffer[it1 + it2] = str[left + it1];
+                    it1++;
+                }
+                else
+                {
+                    buffer[it1 + it2] = str[middle + it2];
+                    it2++;
+                }
+
+            }
 
 
+            while(left+it1< middle)
+            {
+                buffer[it1 + it2] = str[left + it1];
+                it1++;
+            }
 
+            while(middle+it2<right)
+            {
+                buffer[it1 + it2] = str[middle + it2];
+                it2++;
+            }
+
+            for(int i = 0; i< it1+it2; i++)
+            {
+                str[left + i] = buffer[i];
+            }
         }
 
 
-        //элементы дерева a[i] a[2i+1] a[2i+2]
+
+        //*-------------------ПИРАМИДАЛЬНАЯ (КУЧЕЙ)-------------------------------------
         public static string HeapTreeSort(Experiment exp)
         {
+            //элементы дерева a[i] a[2i+1] a[2i+2]
             var str = new StringBuilder(exp.Text);
             heapSort(exp, str, str.Length);
             return str.ToString();
         }
-
 
         private static void heapify(Experiment exp, StringBuilder str, int heapSize, int i)
         {
@@ -217,11 +266,58 @@ namespace SortsLab2
             }
         }
 
+        //*----------------------ПОРАЗРЯДНАЯ СОРТИРОВКА----------------------------------
         public static string RadixSort(Experiment exp)
         {
-            return "rs";
+            var startArr = new List<int>[10];
+            var targetArr = new List<int>[10];
+
+            for (int i = 0; i < exp.Text.Length; i++)
+            {
+                var digit = ((int)exp.Text[i]) % 10;
+                if(startArr[digit] == null ) startArr[digit] = new List<int>();
+                startArr[digit].Add((int)exp.Text[i]);
+            }
+            var digitRank = 1;
+            var isEnd = false;
+            while(true)
+            {
+                for (int i =0; i< startArr.Length; i++)
+                {
+                    for(int j =0; startArr[i]!=null && j<startArr[i].Count; j++)
+                    {
+                        exp.SortIterations[(int)Sorter.SortType.Radix]++;
+
+                        var digit = (startArr[i][j] / (int)Math.Pow(10, digitRank)) % 10;
+                        if(targetArr[digit] == null ) targetArr[digit] = new List<int>();
+                        targetArr[digit].Add(startArr[i][j]);
+
+                        if(j==exp.Length-1) isEnd = true;
+                    }
+                }
+                digitRank++;
+                startArr = targetArr;
+                //for(int g = 1; g< targetArr.Length; g++) //цико проверки конца
+                //{
+                //    if(targetArr[g] != null)
+                //    {
+                //        isEnd = false;
+                //        break;
+                //    }
+                //}
+
+                if (isEnd) break;
+                targetArr = new List<int>[10];
+            }
+
+            var str = new StringBuilder();
+            foreach (var c in startArr[0])
+                str.Append((char)c);
+
+            return str.ToString(); ;
         }
 
+        //*--------------------------------------------------------
         public static string RedBlackSort(Experiment exp)
         {
             return "rbs";
