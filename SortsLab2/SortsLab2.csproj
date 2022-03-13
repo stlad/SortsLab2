@@ -37,6 +37,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryTree.cs" />
     <Compile Include="Experiment.cs" />
     <Compile Include="Laboratory.cs" />
     <Compile Include="Program.cs" />
