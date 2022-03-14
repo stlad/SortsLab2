@@ -16,31 +16,21 @@ namespace SortsLab2
         
         public static void Main()
         {
-            var exp = new Experiment("some string");
-            var exp1 = new Experiment("new string 1");
+            //var exp = new Experiment("assjdowkdasldpaeldjeifasdasdasdkkimdiojsidkspobmog,bokbtikovbmtitogtigjtriv");
+            
+            Console.WriteLine("Введите название файла со строками: ");
+            var fileName = Console.ReadLine();
 
-            var exp2 = new Experiment("new string 123");
+            var file = System.IO.File.ReadLines(fileName).ToList();
+            var lab = new Laboratory(file);
 
-            var exp3 = new Experiment("new string545546");
-
-            var lab = new Laboratory();
-            lab.Experiments.Add(exp);
-            lab.Experiments.Add(exp1);
-            lab.Experiments.Add(exp2);
-            lab.Experiments.Add(exp3);
-
-
-            lab.Serialyze();
-            var s = typeof(List<Experiment>);
+            lab.MakeAllExperiments();
+            lab.Serialyze("result.xml");
+            Console.WriteLine("Готово!");
+            Console.ReadKey();
         }
 
 
-        
-    }
 
-    public class Book
-    {
-        public string Title { get; set; }
-        public List<int> a = new List<int>();
     }
 }
