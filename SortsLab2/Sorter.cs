@@ -16,7 +16,7 @@ namespace SortsLab2
             Bubble,
             QSort,
             SortTree,
-            Instert, //вставками
+            Insert, //вставками
             MergeSort,
             HeapTree,
             Radix,
@@ -31,7 +31,7 @@ namespace SortsLab2
             Sorts[SortType.Bubble] = BubbleSort;
             Sorts[SortType.QSort] = QSort;
             Sorts[SortType.SortTree] = SortTree;
-            Sorts[SortType.Instert] = InsertSort;
+            Sorts[SortType.Insert] = InsertSort;
             Sorts[SortType.MergeSort] = MergeSort;
             Sorts[SortType.HeapTree] = HeapTreeSort;
             Sorts[SortType.Radix] = RadixSort;
@@ -151,7 +151,7 @@ namespace SortsLab2
             {
                 for(int j = i; j>0 && str[j-1] > str[j]; j--)
                 {
-                    exp.SortIterations[(int)Sorter.SortType.Instert]++;
+                    exp.SortIterations[(int)Sorter.SortType.Insert]++;
                     (str[j-1], str[j]) = (str[j],str[j-1]);
                 }
             }
@@ -168,12 +168,6 @@ namespace SortsLab2
 
         private static void RecursionMerge(Experiment exp, StringBuilder str, int leftIndex, int rightIndex)
         {
-            //if (rightIndex <= leftIndex) return;
-
-            //var middleIndex = (rightIndex - leftIndex) / 2 + leftIndex;
-            //RecursionMerge(exp, str, leftIndex, middleIndex);
-            //RecursionMerge(exp, str, middleIndex+1, rightIndex);
-
             if (leftIndex + 1 >= rightIndex) return;
 
             var middleI = (leftIndex + rightIndex) / 2;
@@ -190,6 +184,7 @@ namespace SortsLab2
 
             while((left+it1 < middle) &&( middle + it2 < right))
             {
+                exp.SortIterations[(int)SortType.MergeSort]++;
                 if (str[left + it1] < str[middle + it2])
                 {
                     buffer[it1 + it2] = str[left + it1];
@@ -221,7 +216,7 @@ namespace SortsLab2
                 str[left + i] = buffer[i];
             }
         }
-
+        //https://neerc.ifmo.ru/wiki/index.php?title=%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5%D0%BC
 
 
         //*-------------------ПИРАМИДАЛЬНАЯ (КУЧЕЙ)-------------------------------------
@@ -297,14 +292,7 @@ namespace SortsLab2
                 }
                 digitRank++;
                 startArr = targetArr;
-                //for(int g = 1; g< targetArr.Length; g++) //цико проверки конца
-                //{
-                //    if(targetArr[g] != null)
-                //    {
-                //        isEnd = false;
-                //        break;
-                //    }
-                //}
+                
 
                 if (isEnd) break;
                 targetArr = new List<int>[10];
@@ -320,7 +308,7 @@ namespace SortsLab2
         //*--------------------------------------------------------
         public static string RedBlackSort(Experiment exp)
         {
-            return "rbs";
+            return "Not Implemented yet";
         }
     }
 }
