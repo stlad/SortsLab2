@@ -162,27 +162,75 @@ namespace SortsLab2
         public static string MergeSort(Experiment exp)
         {
             var str = new StringBuilder(exp.Text);
-            RecursionMerge(exp, str, 0, str.Length - 1);
-            return str.ToString();
+            var res = RecursionMerge(exp, exp.Text, 0, str.Length - 1);
+            return res;
+        }
+        private static string RecursionMerge(Experiment exp, string str, int start, int end)
+        {
+            if (start < end)
+            {
+                int middle = (end + start) / 2;
+                var leftArr = RecursionMerge(exp, str, start, middle);
+                var rightArr = RecursionMerge(exp, str, middle + 1, end);
+                var mergedArr = MergeArray(exp, leftArr, rightArr);
+                return mergedArr;
+            }
+            return new String(new char[] { str[start] });
         }
 
-        private static void RecursionMerge(Experiment exp, StringBuilder str, int leftIndex, int rightIndex)
+        private static string MergeArray(Experiment exp, string leftArr, string rightArr)
+        {
+            char[] mergedArr = new char[leftArr.Length + rightArr.Length];
+
+            int leftIndex = 0;
+            int rightIndex = 0;
+            int mergedIndex = 0;
+
+            while (leftIndex < leftArr.Length && rightIndex < rightArr.Length)
+            {
+                exp.SortIterations[(int)SortType.MergeSort]++;
+                if (leftArr[leftIndex] < rightArr[rightIndex])
+                {
+                    mergedArr[mergedIndex++] = leftArr[leftIndex++];
+                }
+                else
+                {
+                    mergedArr[mergedIndex++] = rightArr[rightIndex++];
+                }
+            }
+
+            // If any elements remain in the left array, append them to mergedArr
+            while (leftIndex < leftArr.Length)
+            {
+                mergedArr[mergedIndex++] = leftArr[leftIndex++];
+            }
+
+            // If any elements remain in the right array, append them to mergedArr
+            while (rightIndex < rightArr.Length)
+            {
+                mergedArr[mergedIndex++] = rightArr[rightIndex++];
+            }
+
+            return new string(mergedArr);
+        }
+       
+        private static void RecursionMergeOLDVERSION(Experiment exp, StringBuilder str, int leftIndex, int rightIndex)
         {
             if (leftIndex + 1 >= rightIndex) return;
 
             var middleI = (leftIndex + rightIndex) / 2;
-            RecursionMerge(exp, str, leftIndex, middleI);
-            RecursionMerge(exp, str, middleI, rightIndex);
-            Merge(exp, str, leftIndex, middleI, rightIndex);
+            RecursionMergeOLDVERSION(exp, str, leftIndex, middleI);
+            RecursionMergeOLDVERSION(exp, str, middleI, rightIndex);
+            MergeOLDVERSION(exp, str, leftIndex, middleI, rightIndex);
         }
         
-        private static void Merge(Experiment exp, StringBuilder str, int left, int middle, int right)
+        private static void MergeOLDVERSION(Experiment exp, StringBuilder str, int left, int middle, int right)
         {
             var it1 = 0;
-            var it2 = 0; 
+            var it2 = 0;
             var buffer = new StringBuilder(exp.Text);
 
-            while((left+it1 < middle) &&( middle + it2 < right))
+            while ((left + it1 < middle) && (middle + it2 < right))
             {
                 exp.SortIterations[(int)SortType.MergeSort]++;
                 if (str[left + it1] < str[middle + it2])
@@ -195,29 +243,35 @@ namespace SortsLab2
                     buffer[it1 + it2] = str[middle + it2];
                     it2++;
                 }
-
             }
 
 
-            while(left+it1< middle)
+            while (left + it1 < middle)
             {
                 buffer[it1 + it2] = str[left + it1];
                 it1++;
             }
 
-            while(middle+it2<right)
+            while (middle + it2 < right)
             {
                 buffer[it1 + it2] = str[middle + it2];
                 it2++;
             }
 
-            for(int i = 0; i< it1+it2; i++)
+            for (int i = 0; i < it1 + it2; i++)
             {
                 str[left + i] = buffer[i];
             }
-        }
-        //https://neerc.ifmo.ru/wiki/index.php?title=%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5%D0%BC
 
+
+        }
+
+
+
+ 
+
+        //https://neerc.ifmo.ru/wiki/index.php?title=%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5%D0%BC
+        //https://gist.github.com/nakov/b4663efc3a6092cb03ca
 
         //*-------------------ПИРАМИДАЛЬНАЯ (КУЧЕЙ)-------------------------------------
         public static string HeapTreeSort(Experiment exp)
