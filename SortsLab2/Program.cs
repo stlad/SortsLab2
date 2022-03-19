@@ -46,7 +46,9 @@ namespace SortsLab2
                         Console.Clear();
                         break;
                 }
+
             }
+
 
         }
 

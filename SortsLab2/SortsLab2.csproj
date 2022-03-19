@@ -45,6 +45,8 @@
     <Compile Include="Experiment.cs" />
     <Compile Include="Laboratory.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="RBtree\RedBlackTree.cs" />
+    <Compile Include="RBtree\RedBlackTreeNode.cs" />
     <Compile Include="Sorter.cs" />
   </ItemGroup>
   <ItemGroup>
