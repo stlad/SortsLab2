@@ -22,7 +22,7 @@ namespace SortsLab2
             {
                 Console.Clear();
                 Console.WriteLine("Что делаем?");
-                Console.WriteLine("[1] Лаборатория + xml выгрузка \n[2] Просто сортировка строки \n \n\n\n\n[i] Информация \n[x] Выход");
+                Console.WriteLine("[1] Лаборатория + xml выгрузка \n[2] Просто сортировка строки \n \n\n\n\n[x] Выход");
                 var c = Console.ReadLine();
                 if (c[0] == 'x') break;
                 switch (c[0])
@@ -80,5 +80,6 @@ namespace SortsLab2
             Console.WriteLine("\n\n\n------Нажмите любую кнопку для выхода------");
             Console.ReadKey();
         }
+
     }
 }
