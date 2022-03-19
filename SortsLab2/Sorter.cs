@@ -361,10 +361,32 @@ namespace SortsLab2
             return str.ToString(); ;
         }
 
-        //*--------------------------------------------------------
+        //*--------------------КРАСНО ЧЕРНОЕ ДЕРЕВО-----------------------------
         public static string RedBlackSort(Experiment exp)
         {
-            return "Not Implemented yet";
+            var rb = new RedBlackTree<int, char>();
+            for (int i = 0; i < exp.Text.Length;i++)
+            {
+                rb.Add(i, exp.Text[i], exp);
+            }
+
+
+            var res = new StringBuilder();
+            GetRbTree(exp, rb.Root, res);
+            return res.ToString();
+        }
+
+        private static void GetRbTree(Experiment exp, RedBlackTreeNode<int> tree, StringBuilder res)
+        {
+
+            if (tree.IsLeaf) return;
+
+            exp.SortIterations[(int)SortType.RedBlackTree]++;
+
+            GetRbTree(exp, tree.Left, res);
+            res.Append(tree.Value);
+            GetRbTree(exp, tree.Right, res);
+
         }
     }
 }
