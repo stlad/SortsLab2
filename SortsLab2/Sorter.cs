@@ -268,8 +268,6 @@ namespace SortsLab2
 
 
 
- 
-
         //https://neerc.ifmo.ru/wiki/index.php?title=%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5%D0%BC
         //https://gist.github.com/nakov/b4663efc3a6092cb03ca
 
@@ -318,6 +316,10 @@ namespace SortsLab2
         //*----------------------ПОРАЗРЯДНАЯ СОРТИРОВКА----------------------------------
         public static string RadixSort(Experiment exp)
         {
+            if (exp.Text.All(n => n == exp.Text[0])) 
+                return new string(exp.Text.ToCharArray());
+
+
             var startArr = new List<int>[10];
             var targetArr = new List<int>[10];
 
